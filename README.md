@@ -41,7 +41,7 @@ Duplicates, non-integer inputs, and overflow are rejected with an error.
 ## Structure
 
 ```
-includes/     - headers
-libft/        - libft submodule
-srcs/         - stack ops, cost computation, input parsing, utils
+├── includes/     - headers
+├── libft/        - libft submodule
+└── srcs/         - stack ops, cost computation, input parsing, utils
 ```
