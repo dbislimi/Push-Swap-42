@@ -1,50 +1,47 @@
 # push_swap
 
-Sort a stack of integers using the minimum number of operations. Two stacks, eleven operations, and an algorithm that actually has to be good — the checker doesn't lie.
+Sort a stack of integers using a limited set of operations on two stacks. The goal is to minimize the total number of operations.
 
-## Quick Start
+## Build
 
 ```bash
 make
 ./push_swap 4 67 3 87 23
 ```
 
+Validate:
+
 ```bash
-# validate with the checker
 ARG="4 67 3 87 23"
 ./push_swap $ARG | ./checker $ARG
 ```
 
-## How it works
+## Algorithm
 
-For 2–3 numbers: hardcoded optimal sequences.
+For 2-3 elements, hardcoded sequences.
 
-For larger inputs: a position-based algorithm. Each element in stack `a` is assigned a cost — how many rotations of `a` and `b` it takes to move it to the right position. The element with the lowest total cost is moved on every round. Stack `b` accumulates elements in descending order; they're pushed back to `a` at the end.
+For larger inputs, I use a cost-based approach: each element in stack A is evaluated by how many rotations of A and B it would take to insert it at the right position in B. The cheapest element gets moved first. Stack B stays in descending order, then everything is pushed back to A at the end.
 
-Before any move, the total cost — rotations in both stacks — is computed for every element. The cheapest one goes first. No move is ever spent correcting a bad previous decision.
+Results:
 
-**Target operation counts:**
-
-- 100 numbers: under 700 operations
-- 500 numbers: under 5500 operations
+- 100 numbers: < 700 operations
+- 500 numbers: < 5500 operations
 
 ## Operations
 
-| Operation         | Effect                                           |
-| :---------------- | :----------------------------------------------- |
-| `sa` `sb` `ss`    | Swap the top two elements of stack a, b, or both |
-| `pa` `pb`         | Push the top of one stack onto the other         |
-| `ra` `rb` `rr`    | Rotate upward (top element goes to bottom)       |
-| `rra` `rrb` `rrr` | Rotate downward (bottom element goes to top)     |
+| Op                | What it does                           |
+| :---------------- | :------------------------------------- |
+| `sa` `sb` `ss`    | Swap top two elements of a, b, or both |
+| `pa` `pb`         | Push top of one stack onto the other   |
+| `ra` `rb` `rr`    | Rotate up (top goes to bottom)         |
+| `rra` `rrb` `rrr` | Rotate down (bottom goes to top)       |
 
-## Edge cases
+Duplicates, non-integer inputs, and overflow are rejected with an error.
 
-Duplicate values are rejected. Non-integer and out-of-range inputs print an error and exit.
-
-## Project structure
+## Structure
 
 ```
-├── includes/     — header files
-├── libft/        — libft submodule
-└── srcs/         — stack operations, cost algorithm, input parsing, utils
+includes/     - headers
+libft/        - libft submodule
+srcs/         - stack ops, cost computation, input parsing, utils
 ```
